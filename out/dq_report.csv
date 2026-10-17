@@ -1,0 +1,209 @@
+rule,entity,entity_id,action,detail,amount,properties
+DQ03_unknown_property,expenses,E0017,hold,property V777 is not in properties.csv,834779,V777
+DQ03_unknown_property,payments,P0017,hold,property V999 is not in properties.csv,12727390,V999
+DQ03_unknown_property,reservations,R0034,hold,property V999 is not in properties.csv,14462943,V999
+DQ05_currency_mismatch,reservations,R0061,hold,currency USD but V001 is billed in IDR; amount magnitude looks like IDR and no FX rate is provided,4280874,V001
+DQ06_negative_ota_fee,reservations,R0102,hold,ota_fee=-100000 is negative (looks like a manual correction; payment is gross+100000),3898667,V003
+DQ06_refund_exceeds_gross,reservations,R0072,hold,refund 7970068 exceeds gross 7070068 by 900000,7070068,V020
+DQ15_payment_of_held_reservation,payments,P0051,hold,"R0102 is on hold, so its payment is left out of cash too",3998667,V003
+DQ01_exact_duplicate,payments,P0075,exclude,"2 identical rows (lines 76, 77); first kept, 1 copy dropped",12211055,V009
+DQ01_exact_duplicate,reservations,R0015,exclude,"2 identical rows (lines 16, 152); first kept, 1 copy dropped",13628994,V003
+DQ08_overlapping_stays,reservations,R0001+R0090,flag,V013: 2026-09-22..2026-09-25 overlaps 2026-09-23..2026-09-28,0,V013
+DQ08_overlapping_stays,reservations,R0002+R0037,flag,V019: 2026-10-15..2026-10-19 overlaps 2026-10-16..2026-10-19,0,V019
+DQ08_overlapping_stays,reservations,R0005+R0098,flag,V005: 2026-09-10..2026-09-17 overlaps 2026-09-11..2026-09-15,0,V005
+DQ08_overlapping_stays,reservations,R0007+R0059,flag,V002: 2026-09-08..2026-09-16 overlaps 2026-09-13..2026-09-17,0,V002
+DQ08_overlapping_stays,reservations,R0010+R0088,flag,V005: 2026-10-06..2026-10-13 overlaps 2026-10-10..2026-10-18,0,V005
+DQ08_overlapping_stays,reservations,R0011+R0024,flag,V004: 2026-09-10..2026-09-17 overlaps 2026-09-16..2026-09-19,0,V004
+DQ08_overlapping_stays,reservations,R0012+R0070,flag,V009: 2026-09-21..2026-09-24 overlaps 2026-09-23..2026-09-26,0,V009
+DQ08_overlapping_stays,reservations,R0013+R0043,flag,V020: 2026-10-07..2026-10-10 overlaps 2026-10-08..2026-10-13,0,V020
+DQ08_overlapping_stays,reservations,R0017+R0102,flag,V003: 2026-09-09..2026-09-11 overlaps 2026-09-10..2026-09-14,0,V003
+DQ08_overlapping_stays,reservations,R0018+R0071,flag,V013: 2026-09-28..2026-10-04 overlaps 2026-10-01..2026-10-08,0,V013
+DQ08_overlapping_stays,reservations,R0019+R0049,flag,V018: 2026-09-02..2026-09-04 overlaps 2026-09-02..2026-09-10,0,V018
+DQ08_overlapping_stays,reservations,R0023+R0026,flag,V003: 2026-10-09..2026-10-15 overlaps 2026-10-13..2026-10-17,0,V003
+DQ08_overlapping_stays,reservations,R0025+R0063,flag,V015: 2026-10-14..2026-10-21 overlaps 2026-10-19..2026-10-26,0,V015
+DQ08_overlapping_stays,reservations,R0027+R0112,flag,V008: 2026-09-18..2026-09-23 overlaps 2026-09-22..2026-09-25,0,V008
+DQ08_overlapping_stays,reservations,R0027+R0146,flag,V008: 2026-09-18..2026-09-23 overlaps 2026-09-19..2026-09-24,0,V008
+DQ08_overlapping_stays,reservations,R0028+R0116,flag,V020: 2026-09-25..2026-10-03 overlaps 2026-09-28..2026-10-01,0,V020
+DQ08_overlapping_stays,reservations,R0033+R0056,flag,V008: 2026-09-25..2026-10-02 overlaps 2026-09-25..2026-10-02 (identical dates),0,V008
+DQ08_overlapping_stays,reservations,R0039+R0096,flag,V003: 2026-09-03..2026-09-09 overlaps 2026-09-06..2026-09-14,0,V003
+DQ08_overlapping_stays,reservations,R0041+R0077,flag,V010: 2026-09-10..2026-09-14 overlaps 2026-09-10..2026-09-15,0,V010
+DQ08_overlapping_stays,reservations,R0041+R0121,flag,V010: 2026-09-10..2026-09-14 overlaps 2026-09-13..2026-09-17,0,V010
+DQ08_overlapping_stays,reservations,R0043+R0122,flag,V020: 2026-10-08..2026-10-13 overlaps 2026-10-11..2026-10-14,0,V020
+DQ08_overlapping_stays,reservations,R0045+R0038,flag,V017: 2026-10-01..2026-10-07 overlaps 2026-10-04..2026-10-11,0,V017
+DQ08_overlapping_stays,reservations,R0045+R0148,flag,V017: 2026-10-01..2026-10-07 overlaps 2026-10-04..2026-10-09,0,V017
+DQ08_overlapping_stays,reservations,R0048+R0021,flag,V002: 2026-10-10..2026-10-18 overlaps 2026-10-17..2026-10-25,0,V002
+DQ08_overlapping_stays,reservations,R0048+R0129,flag,V002: 2026-10-10..2026-10-18 overlaps 2026-10-13..2026-10-17,0,V002
+DQ08_overlapping_stays,reservations,R0050+R0008,flag,V014: 2026-10-22..2026-10-27 overlaps 2026-10-26..2026-10-30,0,V014
+DQ08_overlapping_stays,reservations,R0060+R0046,flag,V016: 2026-09-06..2026-09-14 overlaps 2026-09-12..2026-09-17,0,V016
+DQ08_overlapping_stays,reservations,R0065+R0040,flag,V012: 2026-09-11..2026-09-19 overlaps 2026-09-14..2026-09-21,0,V012
+DQ08_overlapping_stays,reservations,R0069+R0030,flag,V001: 2026-09-10..2026-09-17 overlaps 2026-09-15..2026-09-18,0,V001
+DQ08_overlapping_stays,reservations,R0072+R0013,flag,V020: 2026-10-05..2026-10-12 overlaps 2026-10-07..2026-10-10,0,V020
+DQ08_overlapping_stays,reservations,R0072+R0043,flag,V020: 2026-10-05..2026-10-12 overlaps 2026-10-08..2026-10-13,0,V020
+DQ08_overlapping_stays,reservations,R0072+R0122,flag,V020: 2026-10-05..2026-10-12 overlaps 2026-10-11..2026-10-14,0,V020
+DQ08_overlapping_stays,reservations,R0076+R0105,flag,V010: 2026-09-06..2026-09-08 overlaps 2026-09-06..2026-09-10,0,V010
+DQ08_overlapping_stays,reservations,R0077+R0121,flag,V010: 2026-09-10..2026-09-15 overlaps 2026-09-13..2026-09-17,0,V010
+DQ08_overlapping_stays,reservations,R0080+R0031,flag,V008: 2026-09-03..2026-09-11 overlaps 2026-09-05..2026-09-08,0,V008
+DQ08_overlapping_stays,reservations,R0082+R0094,flag,V016: 2026-09-27..2026-10-04 overlaps 2026-10-02..2026-10-09,0,V016
+DQ08_overlapping_stays,reservations,R0085+R0023,flag,V003: 2026-10-06..2026-10-13 overlaps 2026-10-09..2026-10-15,0,V003
+DQ08_overlapping_stays,reservations,R0086+R0069,flag,V001: 2026-09-06..2026-09-13 overlaps 2026-09-10..2026-09-17,0,V001
+DQ08_overlapping_stays,reservations,R0091+R0051,flag,V019: 2026-09-06..2026-09-14 overlaps 2026-09-12..2026-09-17,0,V019
+DQ08_overlapping_stays,reservations,R0092+R0095,flag,V017: 2026-09-11..2026-09-18 overlaps 2026-09-15..2026-09-18,0,V017
+DQ08_overlapping_stays,reservations,R0096+R0017,flag,V003: 2026-09-06..2026-09-14 overlaps 2026-09-09..2026-09-11,0,V003
+DQ08_overlapping_stays,reservations,R0096+R0101,flag,V003: 2026-09-06..2026-09-14 overlaps 2026-09-13..2026-09-17,0,V003
+DQ08_overlapping_stays,reservations,R0096+R0102,flag,V003: 2026-09-06..2026-09-14 overlaps 2026-09-10..2026-09-14,0,V003
+DQ08_overlapping_stays,reservations,R0096+R0103,flag,V003: 2026-09-06..2026-09-14 overlaps 2026-09-12..2026-09-19,0,V003
+DQ08_overlapping_stays,reservations,R0096+R0128,flag,V003: 2026-09-06..2026-09-14 overlaps 2026-09-13..2026-09-16,0,V003
+DQ08_overlapping_stays,reservations,R0099+R0060,flag,V016: 2026-09-06..2026-09-08 overlaps 2026-09-06..2026-09-14,0,V016
+DQ08_overlapping_stays,reservations,R0101+R0029,flag,V003: 2026-09-13..2026-09-17 overlaps 2026-09-14..2026-09-20,0,V003
+DQ08_overlapping_stays,reservations,R0102+R0101,flag,V003: 2026-09-10..2026-09-14 overlaps 2026-09-13..2026-09-17,0,V003
+DQ08_overlapping_stays,reservations,R0102+R0103,flag,V003: 2026-09-10..2026-09-14 overlaps 2026-09-12..2026-09-19,0,V003
+DQ08_overlapping_stays,reservations,R0102+R0128,flag,V003: 2026-09-10..2026-09-14 overlaps 2026-09-13..2026-09-16,0,V003
+DQ08_overlapping_stays,reservations,R0103+R0029,flag,V003: 2026-09-12..2026-09-19 overlaps 2026-09-14..2026-09-20,0,V003
+DQ08_overlapping_stays,reservations,R0103+R0101,flag,V003: 2026-09-12..2026-09-19 overlaps 2026-09-13..2026-09-17,0,V003
+DQ08_overlapping_stays,reservations,R0103+R0128,flag,V003: 2026-09-12..2026-09-19 overlaps 2026-09-13..2026-09-16,0,V003
+DQ08_overlapping_stays,reservations,R0106+R0082,flag,V016: 2026-09-23..2026-09-28 overlaps 2026-09-27..2026-10-04,0,V016
+DQ08_overlapping_stays,reservations,R0113+R0013,flag,V020: 2026-10-04..2026-10-09 overlaps 2026-10-07..2026-10-10,0,V020
+DQ08_overlapping_stays,reservations,R0113+R0043,flag,V020: 2026-10-04..2026-10-09 overlaps 2026-10-08..2026-10-13,0,V020
+DQ08_overlapping_stays,reservations,R0113+R0072,flag,V020: 2026-10-04..2026-10-09 overlaps 2026-10-05..2026-10-12,0,V020
+DQ08_overlapping_stays,reservations,R0115+R0045,flag,V017: 2026-09-30..2026-10-03 overlaps 2026-10-01..2026-10-07,0,V017
+DQ08_overlapping_stays,reservations,R0117+R0010,flag,V005: 2026-10-06..2026-10-08 overlaps 2026-10-06..2026-10-13,0,V005
+DQ08_overlapping_stays,reservations,R0119+R0001,flag,V013: 2026-09-16..2026-09-23 overlaps 2026-09-22..2026-09-25,0,V013
+DQ08_overlapping_stays,reservations,R0120+R0075,flag,V010: 2026-09-18..2026-09-23 overlaps 2026-09-19..2026-09-23,0,V010
+DQ08_overlapping_stays,reservations,R0124+R0060,flag,V016: 2026-09-04..2026-09-10 overlaps 2026-09-06..2026-09-14,0,V016
+DQ08_overlapping_stays,reservations,R0124+R0099,flag,V016: 2026-09-04..2026-09-10 overlaps 2026-09-06..2026-09-08,0,V016
+DQ08_overlapping_stays,reservations,R0127+R0042,flag,V008: 2026-10-22..2026-10-27 overlaps 2026-10-24..2026-10-26,0,V008
+DQ08_overlapping_stays,reservations,R0127+R0097,flag,V008: 2026-10-22..2026-10-27 overlaps 2026-10-26..2026-10-29,0,V008
+DQ08_overlapping_stays,reservations,R0128+R0029,flag,V003: 2026-09-13..2026-09-16 overlaps 2026-09-14..2026-09-20,0,V003
+DQ08_overlapping_stays,reservations,R0128+R0101,flag,V003: 2026-09-13..2026-09-16 overlaps 2026-09-13..2026-09-17,0,V003
+DQ08_overlapping_stays,reservations,R0130+R0072,flag,V020: 2026-10-04..2026-10-06 overlaps 2026-10-05..2026-10-12,0,V020
+DQ08_overlapping_stays,reservations,R0130+R0113,flag,V020: 2026-10-04..2026-10-06 overlaps 2026-10-04..2026-10-09,0,V020
+DQ08_overlapping_stays,reservations,R0145+R0126,flag,V015: 2026-09-08..2026-09-13 overlaps 2026-09-09..2026-09-14,0,V015
+DQ08_overlapping_stays,reservations,R0146+R0112,flag,V008: 2026-09-19..2026-09-24 overlaps 2026-09-22..2026-09-25,0,V008
+DQ08_overlapping_stays,reservations,R0148+R0038,flag,V017: 2026-10-04..2026-10-09 overlaps 2026-10-04..2026-10-11,0,V017
+DQ08_overlapping_stays,reservations,R0150+R0149,flag,V009: 2026-09-01..2026-09-09 overlaps 2026-09-02..2026-09-09,0,V009
+DQ09_direct_with_ota_fee,reservations,R0005,flag,"Direct booking carries ota_fee=941999 (12%); kept as a channel/payment cost, needs confirmation",941999,V005
+DQ09_direct_with_ota_fee,reservations,R0010,flag,"Direct booking carries ota_fee=337321 (12%); kept as a channel/payment cost, needs confirmation",337321,V005
+DQ09_direct_with_ota_fee,reservations,R0015,flag,"Direct booking carries ota_fee=2316929 (17%); kept as a channel/payment cost, needs confirmation",2316929,V003
+DQ09_direct_with_ota_fee,reservations,R0020,flag,"Direct booking carries ota_fee=612470 (17%); kept as a channel/payment cost, needs confirmation",612470,V011
+DQ09_direct_with_ota_fee,reservations,R0025,flag,"Direct booking carries ota_fee=1408341 (15%); kept as a channel/payment cost, needs confirmation",1408341,V015
+DQ09_direct_with_ota_fee,reservations,R0030,flag,"Direct booking carries ota_fee=1762034 (17%); kept as a channel/payment cost, needs confirmation",1762034,V001
+DQ09_direct_with_ota_fee,reservations,R0035,flag,"Direct booking carries ota_fee=1363390 (15%); kept as a channel/payment cost, needs confirmation",1363390,V018
+DQ09_direct_with_ota_fee,reservations,R0040,flag,"Direct booking carries ota_fee=1379853 (15%); kept as a channel/payment cost, needs confirmation",1379853,V012
+DQ09_direct_with_ota_fee,reservations,R0045,flag,"Direct booking carries ota_fee=1188280 (12%); kept as a channel/payment cost, needs confirmation",1188280,V017
+DQ09_direct_with_ota_fee,reservations,R0050,flag,"Direct booking carries ota_fee=1186469 (15%); kept as a channel/payment cost, needs confirmation",1186469,V014
+DQ09_direct_with_ota_fee,reservations,R0055,flag,"Direct booking carries ota_fee=1923902 (17%); kept as a channel/payment cost, needs confirmation",1923902,V001
+DQ09_direct_with_ota_fee,reservations,R0060,flag,"Direct booking carries ota_fee=2032712 (15%); kept as a channel/payment cost, needs confirmation",2032712,V016
+DQ09_direct_with_ota_fee,reservations,R0065,flag,"Direct booking carries ota_fee=1220597 (12%); kept as a channel/payment cost, needs confirmation",1220597,V012
+DQ09_direct_with_ota_fee,reservations,R0070,flag,"Direct booking carries ota_fee=1772286 (17%); kept as a channel/payment cost, needs confirmation",1772286,V009
+DQ09_direct_with_ota_fee,reservations,R0075,flag,"Direct booking carries ota_fee=1110497 (15%); kept as a channel/payment cost, needs confirmation",1110497,V010
+DQ09_direct_with_ota_fee,reservations,R0080,flag,"Direct booking carries ota_fee=708059 (12%); kept as a channel/payment cost, needs confirmation",708059,V008
+DQ09_direct_with_ota_fee,reservations,R0085,flag,"Direct booking carries ota_fee=1687048 (12%); kept as a channel/payment cost, needs confirmation",1687048,V003
+DQ09_direct_with_ota_fee,reservations,R0090,flag,"Direct booking carries ota_fee=877686 (15%); kept as a channel/payment cost, needs confirmation",877686,V013
+DQ09_direct_with_ota_fee,reservations,R0095,flag,"Direct booking carries ota_fee=499279 (17%); kept as a channel/payment cost, needs confirmation",499279,V017
+DQ09_direct_with_ota_fee,reservations,R0100,flag,"Direct booking carries ota_fee=1604064 (12%); kept as a channel/payment cost, needs confirmation",1604064,V004
+DQ09_direct_with_ota_fee,reservations,R0105,flag,"Direct booking carries ota_fee=1657065 (15%); kept as a channel/payment cost, needs confirmation",1657065,V010
+DQ09_direct_with_ota_fee,reservations,R0110,flag,"Direct booking carries ota_fee=997116 (12%); kept as a channel/payment cost, needs confirmation",997116,V011
+DQ09_direct_with_ota_fee,reservations,R0115,flag,"Direct booking carries ota_fee=1790402 (12%); kept as a channel/payment cost, needs confirmation",1790402,V017
+DQ09_direct_with_ota_fee,reservations,R0120,flag,"Direct booking carries ota_fee=459957 (15%); kept as a channel/payment cost, needs confirmation",459957,V010
+DQ09_direct_with_ota_fee,reservations,R0125,flag,"Direct booking carries ota_fee=2338132 (17%); kept as a channel/payment cost, needs confirmation",2338132,V014
+DQ09_direct_with_ota_fee,reservations,R0130,flag,"Direct booking carries ota_fee=1869459 (15%); kept as a channel/payment cost, needs confirmation",1869459,V020
+DQ09_direct_with_ota_fee,reservations,R0145,flag,"Direct booking carries ota_fee=1496136 (15%); kept as a channel/payment cost, needs confirmation",1496136,V015
+DQ09_direct_with_ota_fee,reservations,R0150,flag,"Direct booking carries ota_fee=2501060 (17%); kept as a channel/payment cost, needs confirmation",2501060,V009
+DQ10_zero_payment,payments,P0036,info,zero-amount 'received' payment on a confirmed booking; ignored as cash,0,V020
+DQ10_zero_payment,payments,P0066,info,zero-amount 'received' payment on a cancelled booking; ignored as cash,0,V012
+DQ10_zero_payment,payments,P0067,info,zero-amount 'received' payment on a cancelled booking; ignored as cash,0,V013
+DQ10_zero_payment,payments,P0068,info,zero-amount 'received' payment on a cancelled booking; ignored as cash,0,V020
+DQ10_zero_payment,payments,P0069,info,zero-amount 'received' payment on a cancelled booking; ignored as cash,0,V004
+DQ10_zero_payment,payments,P0070,info,zero-amount 'received' payment on a cancelled booking; ignored as cash,0,V004
+DQ10_zero_payment,payments,P0071,info,zero-amount 'received' payment on a cancelled booking; ignored as cash,0,V002
+DQ11_modified_no_history,reservations,R0143,info,status=modified but only the latest version is in the file; original terms unavailable,0,V011
+DQ11_modified_no_history,reservations,R0144,info,status=modified but only the latest version is in the file; original terms unavailable,0,V002
+DQ11_modified_no_history,reservations,R0145,info,status=modified but only the latest version is in the file; original terms unavailable,0,V015
+DQ11_modified_no_history,reservations,R0146,info,status=modified but only the latest version is in the file; original terms unavailable,0,V008
+DQ11_modified_no_history,reservations,R0147,info,status=modified but only the latest version is in the file; original terms unavailable,0,V002
+DQ11_modified_no_history,reservations,R0148,info,status=modified but only the latest version is in the file; original terms unavailable,0,V017
+DQ11_modified_no_history,reservations,R0149,info,status=modified but only the latest version is in the file; original terms unavailable,0,V009
+DQ11_modified_no_history,reservations,R0150,info,status=modified but only the latest version is in the file; original terms unavailable,0,V009
+DQ12_expense_not_paid,expenses,E0006,info,"payment_status=pending: accrued, not in cash",545475,V009
+DQ12_expense_not_paid,expenses,E0012,info,"payment_status=pending: accrued, not in cash",785856,V004
+DQ12_expense_not_paid,expenses,E0018,info,"payment_status=pending: accrued, not in cash",778388,V011
+DQ12_expense_not_paid,expenses,E0024,info,"payment_status=pending: accrued, not in cash",93518,V015
+DQ12_expense_not_paid,expenses,E0030,info,"payment_status=pending: accrued, not in cash",158367,V010
+DQ12_expense_not_paid,expenses,E0036,info,"payment_status=pending: accrued, not in cash",651176,V012
+DQ12_expense_not_paid,expenses,E0042,info,"payment_status=pending: accrued, not in cash",751988,V003
+DQ12_expense_not_paid,expenses,E0048,info,"payment_status=pending: accrued, not in cash",359904,V003
+DQ12_expense_not_paid,expenses,E0054,info,"payment_status=pending: accrued, not in cash",710144,V005
+DQ12_expense_not_paid,expenses,E0060,info,"payment_status=pending: accrued, not in cash",818748,V010
+DQ12_expense_not_paid,expenses,E0066,info,"payment_status=pending: accrued, not in cash",921354,V015
+DQ12_expense_not_paid,expenses,E0072,info,"payment_status=pending: accrued, not in cash",238459,V011
+DQ12_expense_not_paid,expenses,E0078,info,"payment_status=pending: accrued, not in cash",548218,V017
+DQ12_expense_not_paid,expenses,E0084,info,"payment_status=pending: accrued, not in cash",263491,V003
+DQ12_expense_not_paid,expenses,E0090,info,"payment_status=pending: accrued, not in cash",757492,V013
+DQ13_no_payment_record,reservations,R0001,info,active booking checked out 2026-09-25 has no received payment,4492788,V013
+DQ13_no_payment_record,reservations,R0003,info,active booking checked out 2026-11-01 has no received payment,10710353,V013
+DQ13_no_payment_record,reservations,R0005,info,active booking checked out 2026-09-17 has no received payment,6907989,V005
+DQ13_no_payment_record,reservations,R0007,info,active booking checked out 2026-09-16 has no received payment,10877595,V002
+DQ13_no_payment_record,reservations,R0009,info,active booking checked out 2026-10-21 has no received payment,12568634,V003
+DQ13_no_payment_record,reservations,R0011,info,active booking checked out 2026-09-17 has no received payment,4824185,V004
+DQ13_no_payment_record,reservations,R0013,info,active booking checked out 2026-10-10 has no received payment,8620796,V020
+DQ13_no_payment_record,reservations,R0015,info,active booking checked out 2026-09-29 has no received payment,11312065,V003
+DQ13_no_payment_record,reservations,R0017,info,active booking checked out 2026-09-11 has no received payment,8458500,V003
+DQ13_no_payment_record,reservations,R0019,info,active booking checked out 2026-09-04 has no received payment,11467407,V018
+DQ13_no_payment_record,reservations,R0021,info,active booking checked out 2026-10-25 has no received payment,12269844,V002
+DQ13_no_payment_record,reservations,R0023,info,active booking checked out 2026-10-15 has no received payment,7900991,V003
+DQ13_no_payment_record,reservations,R0025,info,active booking checked out 2026-10-21 has no received payment,7980599,V015
+DQ13_no_payment_record,reservations,R0027,info,active booking checked out 2026-09-23 has no received payment,12165152,V008
+DQ13_no_payment_record,reservations,R0029,info,active booking checked out 2026-09-20 has no received payment,4625018,V003
+DQ13_no_payment_record,reservations,R0031,info,active booking checked out 2026-09-08 has no received payment,9701003,V008
+DQ13_no_payment_record,reservations,R0033,info,active booking checked out 2026-10-02 has no received payment,12853608,V008
+DQ13_no_payment_record,reservations,R0035,info,active booking checked out 2026-10-25 has no received payment,7725874,V018
+DQ13_no_payment_record,reservations,R0037,info,active booking checked out 2026-10-19 has no received payment,11623920,V019
+DQ13_no_payment_record,reservations,R0039,info,active booking checked out 2026-09-09 has no received payment,11356009,V003
+DQ13_no_payment_record,reservations,R0041,info,active booking checked out 2026-09-14 has no received payment,7362527,V010
+DQ13_no_payment_record,reservations,R0043,info,active booking checked out 2026-10-13 has no received payment,6449190,V020
+DQ13_no_payment_record,reservations,R0045,info,active booking checked out 2026-10-07 has no received payment,8714057,V017
+DQ13_no_payment_record,reservations,R0047,info,active booking checked out 2026-10-07 has no received payment,10242744,V008
+DQ13_no_payment_record,reservations,R0049,info,active booking checked out 2026-09-10 has no received payment,11507725,V018
+DQ13_no_payment_record,reservations,R0051,info,active booking checked out 2026-09-17 has no received payment,2441322,V019
+DQ13_no_payment_record,reservations,R0053,info,active booking checked out 2026-09-09 has no received payment,10292772,V005
+DQ13_no_payment_record,reservations,R0055,info,active booking checked out 2026-10-14 has no received payment,9393169,V001
+DQ13_no_payment_record,reservations,R0057,info,active booking checked out 2026-09-27 has no received payment,9180902,V017
+DQ13_no_payment_record,reservations,R0059,info,active booking checked out 2026-09-17 has no received payment,4700282,V002
+DQ13_no_payment_record,reservations,R0063,info,active booking checked out 2026-10-26 has no received payment,7258333,V015
+DQ13_no_payment_record,reservations,R0065,info,active booking checked out 2026-09-19 has no received payment,8951046,V012
+DQ13_no_payment_record,reservations,R0067,info,active booking checked out 2026-09-24 has no received payment,6973788,V011
+DQ13_no_payment_record,reservations,R0069,info,active booking checked out 2026-09-17 has no received payment,5910237,V001
+DQ13_no_payment_record,reservations,R0071,info,active booking checked out 2026-10-08 has no received payment,5591068,V013
+DQ13_no_payment_record,reservations,R0073,info,active booking checked out 2026-09-24 has no received payment,2488799,V006
+DQ13_no_payment_record,reservations,R0075,info,active booking checked out 2026-09-23 has no received payment,6292816,V010
+DQ13_no_payment_record,reservations,R0077,info,active booking checked out 2026-09-15 has no received payment,9657570,V010
+DQ13_no_payment_record,reservations,R0079,info,active booking checked out 2026-10-16 has no received payment,8544470,V014
+DQ13_no_payment_record,reservations,R0081,info,active booking checked out 2026-10-14 has no received payment,2513363,V010
+DQ13_no_payment_record,reservations,R0083,info,active booking checked out 2026-10-11 has no received payment,11382422,V019
+DQ13_no_payment_record,reservations,R0085,info,active booking checked out 2026-10-13 has no received payment,12371686,V003
+DQ13_no_payment_record,reservations,R0087,info,active booking checked out 2026-10-03 has no received payment,6192483,V015
+DQ13_no_payment_record,reservations,R0089,info,active booking checked out 2026-10-31 has no received payment,9788664,V003
+DQ13_no_payment_record,reservations,R0091,info,active booking checked out 2026-09-14 has no received payment,9313001,V019
+DQ13_no_payment_record,reservations,R0093,info,active booking checked out 2026-09-19 has no received payment,5969615,V007
+DQ13_no_payment_record,reservations,R0095,info,active booking checked out 2026-09-18 has no received payment,2437656,V017
+DQ13_no_payment_record,reservations,R0097,info,active booking checked out 2026-10-29 has no received payment,3961562,V008
+DQ13_no_payment_record,reservations,R0099,info,active booking checked out 2026-09-08 has no received payment,3090630,V016
+DQ13_no_payment_record,reservations,R0101,info,active booking checked out 2026-09-17 has no received payment,7585310,V003
+DQ13_no_payment_record,reservations,R0103,info,active booking checked out 2026-09-19 has no received payment,8956040,V003
+DQ13_no_payment_record,reservations,R0105,info,active booking checked out 2026-09-10 has no received payment,9390033,V010
+DQ13_no_payment_record,reservations,R0107,info,active booking checked out 2026-10-18 has no received payment,6687742,V013
+DQ13_no_payment_record,reservations,R0109,info,active booking checked out 2026-10-06 has no received payment,4312970,V014
+DQ13_no_payment_record,reservations,R0111,info,active booking checked out 2026-10-09 has no received payment,6232495,V004
+DQ13_no_payment_record,reservations,R0113,info,active booking checked out 2026-10-09 has no received payment,11405398,V020
+DQ13_no_payment_record,reservations,R0115,info,active booking checked out 2026-10-03 has no received payment,13129611,V017
+DQ13_no_payment_record,reservations,R0117,info,active booking checked out 2026-10-08 has no received payment,2376563,V005
+DQ13_no_payment_record,reservations,R0119,info,active booking checked out 2026-09-23 has no received payment,8050981,V013
+DQ13_no_payment_record,reservations,R0121,info,active booking checked out 2026-09-17 has no received payment,4656054,V010
+DQ13_no_payment_record,reservations,R0123,info,active booking checked out 2026-10-29 has no received payment,12568060,V019
+DQ13_no_payment_record,reservations,R0125,info,active booking checked out 2026-09-21 has no received payment,11415584,V014
+DQ13_no_payment_record,reservations,R0127,info,active booking checked out 2026-10-27 has no received payment,9654813,V008
+DQ13_no_payment_record,reservations,R0129,info,active booking checked out 2026-10-17 has no received payment,11290371,V002
+DQ13_no_payment_record,reservations,R0143,info,active booking checked out 2026-09-11 has no received payment,5911799,V011
+DQ13_no_payment_record,reservations,R0145,info,active booking checked out 2026-09-13 has no received payment,8478106,V015
+DQ13_no_payment_record,reservations,R0147,info,active booking checked out 2026-10-03 has no received payment,11147550,V002
+DQ13_no_payment_record,reservations,R0149,info,active booking checked out 2026-09-09 has no received payment,11815138,V009

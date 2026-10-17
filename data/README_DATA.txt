@@ -1,0 +1,1 @@
+Synthetic data for recruitment exercise. All amounts are artificial and not financial company data. File encoding UTF-8 BOM; CSV comma-delimited. Includes intentional quality issues. Do not interpret the data as verified accounting records.

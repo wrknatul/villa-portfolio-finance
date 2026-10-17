@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Villa Portfolio Finance</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#16202a;--mute:#5b6773;--line:#dde2e8;--acc:#0b6bcb;--warn:#a15c00;--bad:#b3261e;--ok:#1b7f4c}
+@media (prefers-color-scheme:dark){:root{--bg:#12161b;--card:#1b2128;--ink:#e6ebf0;--mute:#9aa6b2;--line:#2c353f;--acc:#6db1ff;--warn:#f0b35a;--bad:#ff8a80;--ok:#6fd3a0}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,sans-serif}
+main{max-width:1180px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:20px;margin:0 0 4px}h2{font-size:15px;margin:28px 0 8px}
+.sub{color:var(--mute);margin-bottom:14px}
+.banner{border:1px solid var(--warn);color:var(--warn);border-radius:8px;padding:8px 12px;margin-bottom:14px;font-size:13px}
+.filters{display:flex;flex-wrap:wrap;gap:12px;align-items:end;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px}
+label{display:flex;flex-direction:column;font-size:12px;color:var(--mute);gap:3px}
+select,input{font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.card .k{font-size:12px;color:var(--mute)}.card .v{font-size:19px;font-weight:600;font-variant-numeric:tabular-nums;margin-top:2px}
+.card .n{font-size:11px;color:var(--mute);margin-top:2px}.card.key{border-color:var(--acc)}
+.neg{color:var(--bad)}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-variant-numeric:tabular-nums}
+th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right;font-size:13px}
+th{color:var(--mute);font-weight:500;background:var(--bg)}th:first-child,td:first-child,td.l,th.l{text-align:left}
+.scroll{overflow-x:auto}
+.tag{display:inline-block;padding:1px 7px;border-radius:9px;font-size:11px;border:1px solid var(--line)}
+.tag.hold{color:var(--bad);border-color:var(--bad)}.tag.flag{color:var(--warn);border-color:var(--warn)}.tag.exclude{color:var(--mute)}.tag.info{color:var(--acc);border-color:var(--acc)}
+.mute{color:var(--mute)}
+</style>
+</head>
+<body>
+<main>
+<h1>Villa Portfolio Finance <span class="mute" style="font-weight:400">· prototype</span></h1>
+<div class="sub">Synthetic data. All amounts in IDR. Formulas and assumptions: README.md.</div>
+<div class="banner"><b>Owner balance is an estimate.</b> Source data has no owner payouts, taxes, deposits, FX rates or full cost allocation, and some records are under data-quality hold (see below).</div>
+
+<div class="filters">
+  <label>Property <select id="prop"></select></label>
+  <label>From <input type="date" id="from"></label>
+  <label>To <input type="date" id="to"></label>
+  <label>Receivables as of <input type="date" id="asof"></label>
+</div>
+
+<h2>Accrual view <span class="mute" style="font-weight:400">— stays by check-out date, expenses by expense date</span></h2>
+<div class="grid" id="accrual"></div>
+
+<h2>Cash view <span class="mute" style="font-weight:400">— money by payment date</span></h2>
+<div class="grid" id="cash"></div>
+
+<h2>By property</h2>
+<div class="scroll"><table id="byprop"></table></div>
+
+<h2>Left out of the numbers above <span class="mute" style="font-weight:400">(for the selected property and period)</span></h2>
+<div class="grid" id="excluded"></div>
+
+<h2>Data-quality log</h2>
+<div class="filters" style="margin-bottom:8px">
+  <label>Action <select id="act"><option value="">all</option><option>hold</option><option>exclude</option><option>flag</option><option>info</option></select></label>
+  <label>Rule <select id="rule"><option value="">all</option></select></label>
+  <span class="mute" id="issuecount"></span>
+</div>
+<div class="scroll"><table id="issues"></table></div>
+<p class="mute">hold = excluded from totals until fixed · exclude = duplicate copy dropped · flag = kept in totals, needs a human look · info = no effect on numbers. Full list: out/dq_report.csv</p>
+</main>
+<script>
+const D = /*__DATA__*/null;
+const $ = id => document.getElementById(id);
+const fmt = n => (n < 0 ? "−" : "") + Math.abs(Math.round(n)).toLocaleString("en-US");
+const sum = (rows, f) => rows.reduce((a, r) => a + (r[f] || 0), 0);
+
+const dates = [...D.reservations.map(r => r.check_out), ...D.payments.map(p => p.payment_date), ...D.expenses.map(e => e.expense_date)].sort();
+$("from").value = dates[0]; $("to").value = dates[dates.length - 1]; $("asof").value = D.as_of;
+$("prop").innerHTML = '<option value="">All properties</option>' + D.properties.map(p => `<option value="${p.property_id}">${p.property_id} · ${p.cluster}</option>`).join("");
+[...new Set(D.issues.map(i => i.rule))].sort().forEach(r => { const o = document.createElement("option"); o.textContent = r; $("rule").appendChild(o); });
+
+function card(k, v, note, cls) {
+  const d = document.createElement("div"); d.className = "card " + (cls || "");
+  d.innerHTML = '<div class="k"></div><div class="v"></div><div class="n"></div>';
+  d.children[0].textContent = k; d.children[1].textContent = fmt(v); d.children[2].textContent = note || "";
+  if (v < 0) d.children[1].classList.add("neg");
+  return d;
+}
+
+function slice(propId, from, to) {
+  const inP = r => !propId || r.property_id === propId;
+  return {
+    res: D.reservations.filter(r => inP(r) && r.check_out >= from && r.check_out <= to),
+    pay: D.payments.filter(p => inP(p) && p.payment_date >= from && p.payment_date <= to),
+    exp: D.expenses.filter(e => inP(e) && e.expense_date >= from && e.expense_date <= to),
+  };
+}
+
+function metrics(s, asof) {
+  const R = s.res.filter(r => r.included), P = s.pay.filter(p => p.included), E = s.exp.filter(e => e.included);
+  const m = {
+    gross: sum(R, "gross"), refund: sum(R, "refund"), ota: sum(R, "ota_fee"), mgmt: sum(R, "mgmt_fee"),
+    opex: sum(E, "amount"), opexPending: sum(E.filter(e => !e.paid), "amount"), opexPaid: sum(E.filter(e => e.paid), "amount"),
+    payout: sum(R, "expected_payout"), cash: sum(P, "amount"), mgmtCash: sum(P, "mgmt_fee_cash"),
+  };
+  m.owner = m.gross - m.refund - m.ota - m.mgmt - m.opex;
+  m.ownerCash = m.cash - m.mgmtCash - m.opexPaid;
+  m.receivable = R.filter(r => r.check_out <= asof).reduce((a, r) => a + Math.max(0, r.expected_payout - r.paid), 0);
+  m.excRes = sum(s.res.filter(r => !r.included), "excluded_gross");
+  m.excPay = sum(s.pay, "excluded_amount");
+  m.excExp = sum(s.exp, "excluded_amount");
+  m.nRes = R.length;
+  const ov = R.filter(r => r.flags.split(",").includes("DQ08"));
+  m.ovN = ov.length; m.ovGross = sum(ov, "gross");
+  return m;
+}
+
+function render() {
+  const propId = $("prop").value, from = $("from").value, to = $("to").value, asof = $("asof").value;
+  const s = slice(propId, from, to), m = metrics(s, asof);
+  const A = $("accrual"), C = $("cash"), X = $("excluded");
+  A.replaceChildren(
+    card("Gross bookings", m.gross, m.nRes + " stays"), card("Refunds", m.refund), card("OTA fees", m.ota),
+    card("Management fees", m.mgmt), card("Operating expenses", m.opex, "incl. " + fmt(m.opexPending) + " pending"),
+    card("Owner balance (estimate)", m.owner, "gross − refunds − OTA − mgmt − opex", "key"));
+  C.replaceChildren(
+    card("Cash received", m.cash, "net of OTA fees, as paid out"), card("Mgmt fee on cash received", m.mgmtCash),
+    card("Operating expenses paid", m.opexPaid, "dated by expense date"),
+    card("Owner balance, cash (estimate)", m.ownerCash, "", "key"),
+    card("Accrued payout − cash received", m.payout - m.cash, "timing gap in this period"),
+    card("No payment on record", m.receivable, "expected payout of stays checked out ≤ " + asof + " with no payment row"));
+  X.replaceChildren(card("Bookings on hold / cancelled", m.excRes, "gross value, not in gross bookings"),
+    card("Payments left out", m.excPay), card("Expenses on hold", m.excExp),
+    card("Kept but in overlapping stays", m.ovGross, m.ovN + " bookings share dates with another booking in the same villa", "warn"));
+
+  const rows = (propId ? D.properties.filter(p => p.property_id === propId) : D.properties).map(p => {
+    const mm = metrics(slice(p.property_id, from, to), asof); return [p, mm];
+  });
+  const head = ["Property", "Gross", "OTA fees", "Mgmt fees", "Opex", "Owner (est.)", "Cash in", "Cash owner (est.)", "No payment row"];
+  const t = $("byprop"); t.replaceChildren();
+  const hr = t.insertRow(); head.forEach(h => { const c = document.createElement("th"); c.textContent = h; hr.appendChild(c); });
+  rows.forEach(([p, mm]) => {
+    const r = t.insertRow();
+    [p.property_id + " · " + p.cluster, mm.gross, mm.ota, mm.mgmt, mm.opex, mm.owner, mm.cash, mm.ownerCash, mm.receivable]
+      .forEach((v, i) => { const c = r.insertCell(); c.textContent = i ? fmt(v) : v; if (i && v < 0) c.className = "neg"; });
+  });
+
+  renderIssues(propId);
+}
+
+function renderIssues(propId) {
+  const act = $("act").value, rule = $("rule").value;
+  const list = D.issues.filter(i => (!propId || i.properties === propId) && (!act || i.action === act) && (!rule || i.rule === rule));
+  $("issuecount").textContent = list.length + " records";
+  const t = $("issues"); t.replaceChildren();
+  const hr = t.insertRow(); ["Action", "Rule", "Entity", "ID", "Detail", "Amount"].forEach((h, i) => { const c = document.createElement("th"); c.textContent = h; if (i < 5) c.className = "l"; hr.appendChild(c); });
+  const order = { hold: 0, exclude: 1, flag: 2, info: 3 };
+  list.sort((a, b) => order[a.action] - order[b.action] || a.rule.localeCompare(b.rule)).slice(0, 400).forEach(i => {
+    const r = t.insertRow();
+    const a = r.insertCell(); a.className = "l"; const tag = document.createElement("span"); tag.className = "tag " + i.action; tag.textContent = i.action; a.appendChild(tag);
+    [i.rule, i.entity, i.entity_id, i.detail].forEach(v => { const c = r.insertCell(); c.className = "l"; c.textContent = v; });
+    r.insertCell().textContent = i.amount ? fmt(i.amount) : "";
+  });
+}
+
+["prop", "from", "to", "asof"].forEach(id => $(id).addEventListener("change", render));
+["act", "rule"].forEach(id => $(id).addEventListener("change", () => renderIssues($("prop").value)));
+render();
+</script>
+</body>
+</html>
